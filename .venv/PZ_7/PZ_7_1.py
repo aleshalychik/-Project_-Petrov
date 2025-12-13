@@ -5,14 +5,13 @@
 
 def check_number_type(s):
     s = s.strip()
-    try:
-        int(s)
+    
+    if s.replace('.', '', 1).isdigit() and s.count('.') == 1:
+        return 2
+    elif s.isdigit() or (s.startswith('-') and s[1:].isdigit()):
         return 1
-    except:
-        try:
-            float(s)
-            if '.' in s:
-                return 2
-            return 1
-        except:
-            return 0
+    else:
+        return 0
+user_input = input("Введите строку: ")
+result = check_number_type(user_input)
+print(f"Результат: {result}")
