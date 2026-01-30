@@ -10,6 +10,6 @@ on_all = sarai1 & sarai2 & sarai3
 on_at = sarai1 | sarai2 | sarai3
 on_no = all - on_at
 
-print("Культуры на каждом участке:", on_all)
-print("Культуры хотя бы на одном участке:", on_at)
-print("Культуры, которых нет ни на одном участке:", on_no)
+print("на каждом участке:", on_all)
+print("хотя бы на одном участке:", on_at)
+print("нет ни на одном участке:", on_no)
