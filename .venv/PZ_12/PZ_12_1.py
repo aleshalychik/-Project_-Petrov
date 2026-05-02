@@ -2,26 +2,14 @@
 
 import random
 
-# Пользователь вводит размеры матрицы
-rows = int(input("Введите количество строк: "))
-cols = int(input("Введите количество столбцов: "))
+rows = int(input())
+cols = int(input())
+matrix = [[random.randint(1, 10) for _ in range(cols)] for _ in range(rows)]
+items = [val for row in matrix for val in row[-2:]]
 
-if rows <= 0 or cols <= 0:
-    print("Ошибка: размеры матрицы должны быть больше нуля.")
-else:
-    # Генерируем матрицу заданного пользователем размера
-    matrix = [[random.randint(1, 10) for _ in range(cols)] for _ in range(rows)]
-
-    # Собираем значения из последних двух столбцов
-    # (Если столбцов меньше 2, Python безопасно возьмет доступные)
-    items = [val for row in matrix for val in row[-2:]]
-
-    # Вычисляем среднее значение
-    avg = sum(items) / len(items)
-
-    # Выводим результат
-    print("\nСгенерированная матрица:")
-    for row in matrix: 
-        print(row)
+avg = sum(items) / len(items)
+print("матрица:")
+for row in matrix: 
+  print(row)
         
-    print(f"\nСреднее последних двух столбцов: {avg}")
+print(f"Среднее последних двух столбцов: {avg}")
