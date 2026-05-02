@@ -1,12 +1,27 @@
 #В матрицу найти среднее арифметическое элементов последних двух столбцов
 
 import random
-matrix = [[random.randint(1, 10) for _ in range(4)] for _ in range(3)]
 
-items = [val for row in matrix for val in row[-2:]]
+# Пользователь вводит размеры матрицы
+rows = int(input("Введите количество строк: "))
+cols = int(input("Введите количество столбцов: "))
 
-avg = sum(items) / len(items)
+if rows <= 0 or cols <= 0:
+    print("Ошибка: размеры матрицы должны быть больше нуля.")
+else:
+    # Генерируем матрицу заданного пользователем размера
+    matrix = [[random.randint(1, 10) for _ in range(cols)] for _ in range(rows)]
 
-for row in matrix: 
-  print(row)
-print(f"Среднее последних двух столбцов: {avg}")
+    # Собираем значения из последних двух столбцов
+    # (Если столбцов меньше 2, Python безопасно возьмет доступные)
+    items = [val for row in matrix for val in row[-2:]]
+
+    # Вычисляем среднее значение
+    avg = sum(items) / len(items)
+
+    # Выводим результат
+    print("\nСгенерированная матрица:")
+    for row in matrix: 
+        print(row)
+        
+    print(f"\nСреднее последних двух столбцов: {avg}")
