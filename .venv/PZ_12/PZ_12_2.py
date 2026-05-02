@@ -1,7 +1,8 @@
 #Перенести в новую матрицу Matr1 элементы, которые не находятся в первых и последних строках и столбцах матрицы Matr2 произвольного размера
 
 import random
-rows, cols = 5, 6
+rows = int(input())
+cols = int(input())
 Matr2 = [[random.randint(10, 99) for i in range(cols)] for i in range(rows)]
 
 print("Исходная матрица Matr2:")
