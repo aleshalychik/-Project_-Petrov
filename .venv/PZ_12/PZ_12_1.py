@@ -2,12 +2,25 @@
 
 import random
 
-matrix = [[random.randint(1, 10) for _ in range(4)] for _ in range(3)]
+# 1. Пользователь вводит размеры
+# Используем int() для преобразования строки в число
+rows = int(input("Введите количество строк: "))
+cols = int(input("Введите количество столбцов: "))
 
-items = [val for row in matrix for val in row[-2:]]
+# 2. Генерируем Matr2 (как и раньше, через списковое включение)
+Matr2 = [[random.randint(10, 99) for _ in range(cols)] for _ in range(rows)]
 
-avg = sum(items) / len(items)
+print("\nИсходная матрица Matr2:")
+for r in Matr2: 
+    print(r)
 
-for row in matrix: 
-  print(row)
-print(f"Среднее последних двух столбцов: {avg}")
+# 3. Функциональное извлечение "ядра" (inner part)
+# Если rows или cols <= 2, Matr1 будет пустым списком []
+Matr1 = [row[1:-1] for row in Matr2[1:-1]]
+
+print("\nРезультат Matr1 (без границ):")
+if Matr1 and Matr1[0]:  # Проверка, что в матрице что-то осталось
+    for r in Matr1: 
+        print(r)
+else:
+    print("Внутренняя часть отсутствует (матрица слишком мала).")
