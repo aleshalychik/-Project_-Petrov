@@ -1,14 +1,35 @@
-#2. Из предложенного текстового файла (text18-5.txt) вывести на экран его содержимое,
-#количество символов в тексте. Сформировать новый файл, в который поместить текст в
-#стихотворной форме предварительно заменив символы нижнего регистра на верхний.
+#Из предложенного текстового файла (text18-19.txt) вывести на экран его содержимое, количество символов,
+#принадлежащих к группе букв. Сформировать новый файл, в который поместить текст в стихотворной форме
+# предварительно заменив символы верхнего регистра на нижний.
 
-with open('text18-5.txt', 'r', encoding='utf-8') as file:
-    content = file.read()
 
-print(content)
-print(len(content))
+# --- 1. ЧТЕНИЕ И ВЫВОД ИСХОДНОГО ТЕКСТА ---
+file = open('text18-19.txt', 'r', encoding='utf-8')
+text = file.read()
+file.close()
 
-upper_content = content.upper()
+print("--- Содержимое файла ---")
+print(text)
+print("------------------------")
 
-with open('text_upper.txt', 'w', encoding='utf-8') as new_file:
-    new_file.write(upper_content)
+
+# --- 2. ПОДСЧЕТ БУКВ ЧЕРЕЗ ЦИКЛ ---
+letters_count = 0
+
+# Проверяем каждый символ отдельно
+for char in text:
+    if char.isalpha(): # Если символ является буквой
+        letters_count = letters_count + 1
+
+print("Количество символов-букв:", letters_count)
+
+
+# --- 3. ПЕРЕВОД В НИЖНИЙ РЕГИСТР И ЗАПИСЬ ---
+# Метод .lower() переводит весь текст в маленькие буквы
+lower_text = text.lower()
+
+file = open('text18-19_lower.txt', 'w', encoding='utf-8')
+file.write(lower_text)
+file.close()
+
+print("Задача 2 успешно выполнена!")
