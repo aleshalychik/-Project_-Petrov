@@ -1,6 +1,11 @@
+#Приложение ГРУЗОВЫЕ ПЕРЕВОЗКИ для некоторой организации. БД должна содержать таблицу
+#Перевозки со следующей структурой записи: маршрут, фамилия водителя, даты отправки и прибытия, масса груза.
+
+
+
 import sqlite3
 
-# 1. Подключение к базе данных 
+# 1. Подключение к базе данных
 # (Файл 'freight.db' создастся автоматически в папке со скриптом)
 conn = sqlite3.connect('freight.db')
 cursor = conn.cursor()
@@ -18,6 +23,7 @@ CREATE TABLE IF NOT EXISTS Перевозки (
 ''')
 conn.commit()
 
+
 # --- ФУНКЦИИ ПРИЛОЖЕНИЯ ---
 
 def add_transport(route, driver, dep_date, arr_date, weight):
@@ -27,14 +33,15 @@ def add_transport(route, driver, dep_date, arr_date, weight):
     VALUES (?, ?, ?, ?, ?)
     ''', (route, driver, dep_date, arr_date, weight))
     conn.commit()
-    print(f"✅ Успешно добавлено: Маршрут '{route}', Водитель: {driver}")
+    print(f" Успешно добавлено: Маршрут '{route}', Водитель: {driver}")
+
 
 def show_all_transports():
     """Функция для чтения и вывода всех записей из БД"""
     cursor.execute('SELECT * FROM Перевозки')
     rows = cursor.fetchall()
-    
-    print("\n--- 🚚 БАЗА: ГРУЗОВЫЕ ПЕРЕВОЗКИ ---")
+
+    print("\n БАЗА: ГРУЗОВЫЕ ПЕРЕВОЗКИ ---")
     if not rows:
         print("База данных пуста.")
     else:
@@ -42,6 +49,7 @@ def show_all_transports():
             print(f"ID: {row[0]} | Маршрут: {row[1]} | Водитель: {row[2]} | "
                   f"Отправка: {row[3]} | Прибытие: {row[4]} | Масса: {row[5]} т.")
     print("-----------------------------------\n")
+
 
 # --- ДЕМОНСТРАЦИЯ РАБОТЫ ---
 
