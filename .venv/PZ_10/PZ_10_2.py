@@ -1,14 +1,27 @@
-#2. Из предложенного текстового файла (text18-5.txt) вывести на экран его содержимое,
-#количество символов в тексте. Сформировать новый файл, в который поместить текст в
-#стихотворной форме предварительно заменив символы нижнего регистра на верхний.
+# --- ЗАДАЧА 2 ---
 
-with open('text18-5.txt', 'r', encoding='utf-8') as file:
-    content = file.read()
+filename_in = 'text18-19.txt'
+filename_out = 'text18-19_lower.txt'
 
-print(content)
-print(len(content))
+try:
+    # 1. Читаем предложенный текстовый файл
+    with open(filename_in, 'r', encoding='utf-8') as file:
+        text = file.read()
 
-upper_content = content.upper()
+    # 2. Выводим содержимое на экран
+    print("\n--- Содержимое файла ---")
+    print(text)
+    print("------------------------")
 
-with open('text_upper.txt', 'w', encoding='utf-8') as new_file:
-    new_file.write(upper_content)
+    # 3. Считаем количество символов, принадлежащих к группе букв
+    letters_count = sum(1 for char in text if char.isalpha())
+    print(f"Количество символов-букв: {letters_count}")
+
+    # 4. Формируем новый файл, переводя все символы в нижний регистр
+    with open(filename_out, 'w', encoding='utf-8') as file:
+        file.write(text.lower())
+        
+    print(f"Задача 2 выполнена: файл '{filename_out}' успешно создан.")
+
+except FileNotFoundError:
+    print(f"\nОшибка: Файл '{filename_in}' не найден. Поместите его в папку со скриптом.")
