@@ -1,18 +1,22 @@
+# Средствами языка Python сформировать текстовый файл (.txt), содержащий последовательность из целых
+# положительных и отрицательных чисел. Сформировать новый текстовый файл (.txt) следующего вида, предварительно
+#выполнив требуемую обработку элементов:
+
+#Исходные данные:
+#Количество элементов:
+#Сумма элементов:
+#Элементы до n-1 умножены на элемент n:
+
+
 import random
 
-# --- 1. ГЕНЕРАЦИЯ И ЗАПИСЬ ИСХОДНЫХ ДАННЫХ ---
-# Создаем пустой список и заполняем его 5 случайными числами от -10 до 10
-numbers_list = []
-for i in range(5):
-    random_num = random.randint(-10, 10)
-    numbers_list.append(random_num)
+numbers_list = [random.randint(-10,10)for i in range(5)]
 
 # Записываем эти числа в файл через пробел
 file = open('numbers.txt', 'w', encoding='utf-8')
 for num in numbers_list:
     file.write(str(num) + ' ')
 file.close()
-
 
 # --- 2. ЧТЕНИЕ ИЗ ФАЙЛА И ОБРАБОТКА ---
 # Читаем строку из файла
@@ -38,8 +42,8 @@ for num in numbers:
 # Умножаем элементы до n-1 (все, кроме последнего) на элемент n (последний)
 processed_elements = []
 if count > 0:
-    last_element = numbers[count - 1] # Последний элемент списка
-    
+    last_element = numbers[count - 1]  # Последний элемент списка
+
     # Идем циклом по всем элементам, не доходя до последнего
     for i in range(count - 1):
         multiplied_num = numbers[i] * last_element
@@ -50,7 +54,6 @@ processed_str = ""
 for num in processed_elements:
     processed_str = processed_str + str(num) + " "
 
-
 # --- 3. ЗАПИСЬ РЕЗУЛЬТАТОВ В НОВЫЙ ФАЙЛ ---
 file = open('result_numbers.txt', 'w', encoding='utf-8')
 file.write("Исходные данные: " + content + "\n")
@@ -59,4 +62,4 @@ file.write("Сумма элементов: " + str(total_sum) + "\n")
 file.write("Элементы до n-1 умножены на элемент n: " + processed_str + "\n")
 file.close()
 
-print("Задача 1 успешно выполнена!")
+print("Задача выполнена")
