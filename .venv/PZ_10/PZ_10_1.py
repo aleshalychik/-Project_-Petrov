@@ -1,35 +1,62 @@
-# --- ЗАДАЧА 1 ---
+import random
 
-# 1. Создаем исходный файл с положительными и отрицательными числами
-initial_numbers = [5, -3, 8, -2, 4] 
+# --- 1. ГЕНЕРАЦИЯ И ЗАПИСЬ ИСХОДНЫХ ДАННЫХ ---
+# Создаем пустой список и заполняем его 5 случайными числами от -10 до 10
+numbers_list = []
+for i in range(5):
+    random_num = random.randint(-10, 10)
+    numbers_list.append(random_num)
 
-with open('numbers.txt', 'w', encoding='utf-8') as file:
-    # Записываем числа через пробел
-    file.write(' '.join(map(str, initial_numbers)))
+# Записываем эти числа в файл через пробел
+file = open('numbers.txt', 'w', encoding='utf-8')
+for num in numbers_list:
+    file.write(str(num) + ' ')
+file.close()
 
-# 2. Читаем данные из файла для обработки
-with open('numbers.txt', 'r', encoding='utf-8') as file:
-    content = file.read().strip()
-    # Преобразуем строку обратно в список целых чисел
-    numbers_list = list(map(int, content.split()))
 
-# Выполняем требуемую обработку
-count = len(numbers_list)
-total_sum = sum(numbers_list)
+# --- 2. ЧТЕНИЕ ИЗ ФАЙЛА И ОБРАБОТКА ---
+# Читаем строку из файла
+file = open('numbers.txt', 'r', encoding='utf-8')
+content = file.read()
+file.close()
 
-# Элементы до n-1 (все кроме последнего) умножаются на элемент n (последний элемент)
+# Разбиваем строку по пробелам на отдельные элементы-строки
+string_elements = content.split()
+
+# Переводим элементы из строк в целые числа с помощью обычного цикла
+numbers = []
+for item in string_elements:
+    numbers.append(int(item))
+
+# Считаем количество и сумму элементов «вручную» через циклы
+count = 0
+total_sum = 0
+for num in numbers:
+    count = count + 1
+    total_sum = total_sum + num
+
+# Умножаем элементы до n-1 (все, кроме последнего) на элемент n (последний)
+processed_elements = []
 if count > 0:
-    last_element = numbers_list[-1]
-    processed_list = [x * last_element for x in numbers_list[:-1]]
-    processed_str = ' '.join(map(str, processed_list))
-else:
-    processed_str = ""
+    last_element = numbers[count - 1] # Последний элемент списка
+    
+    # Идем циклом по всем элементам, не доходя до последнего
+    for i in range(count - 1):
+        multiplied_num = numbers[i] * last_element
+        processed_elements.append(multiplied_num)
 
-# 3. Формируем новый текстовый файл с результатами
-with open('result_numbers.txt', 'w', encoding='utf-8') as file:
-    file.write(f"Исходные данные: {content}\n")
-    file.write(f"Количество элементов: {count}\n")
-    file.write(f"Сумма элементов: {total_sum}\n")
-    file.write(f"Элементы до n-1 умножены на элемент n: {processed_str}\n")
+# Собираем получившиеся числа обратно в строку через пробел
+processed_str = ""
+for num in processed_elements:
+    processed_str = processed_str + str(num) + " "
 
-print("Задача 1 выполнена: файл 'result_numbers.txt' успешно сформирован.")
+
+# --- 3. ЗАПИСЬ РЕЗУЛЬТАТОВ В НОВЫЙ ФАЙЛ ---
+file = open('result_numbers.txt', 'w', encoding='utf-8')
+file.write("Исходные данные: " + content + "\n")
+file.write("Количество элементов: " + str(count) + "\n")
+file.write("Сумма элементов: " + str(total_sum) + "\n")
+file.write("Элементы до n-1 умножены на элемент n: " + processed_str + "\n")
+file.close()
+
+print("Задача 1 успешно выполнена!")
