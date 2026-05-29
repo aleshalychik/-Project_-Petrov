@@ -1,46 +1,35 @@
-#1. Средствами языка Python сформировать текстовый файл (.txt), содержащий
-#последовательность из целых положительных и отрицательных чисел. Сформировать
-#новый текстовый файл (.txt) следующего вида, предварительно выполнив требуемую
-#обработку элементов:
-#Исходные данные:
-#Количество элементов:
-#Сумма элементов:
-#Элементы, умноженные на минимальный элемент:
+# --- ЗАДАЧА 1 ---
 
-l = ['-9 6 12 -36 20 45 100 -1']
-l2 = []
-l3 = []
-path1 = 'C:\\Users\\WSR\\PycharmProjects\\PythonProject\\data_3.txt'
-path2 = 'C:\\Users\\WSR\\PycharmProjects\\PythonProject\\res.txt'
+# 1. Создаем исходный файл с положительными и отрицательными числами
+initial_numbers = [5, -3, 8, -2, 4] 
 
+with open('numbers.txt', 'w', encoding='utf-8') as file:
+    # Записываем числа через пробел
+    file.write(' '.join(map(str, initial_numbers)))
 
-f3 = open(path1, 'w')
-f3.writelines(l)
-f3.close()
-f4 = open(path1, 'r')
-k = f4.read()
-f4.close()
+# 2. Читаем данные из файла для обработки
+with open('numbers.txt', 'r', encoding='utf-8') as file:
+    content = file.read().strip()
+    # Преобразуем строку обратно в список целых чисел
+    numbers_list = list(map(int, content.split()))
 
+# Выполняем требуемую обработку
+count = len(numbers_list)
+total_sum = sum(numbers_list)
 
-for _ in k.split():
-    l2.append(int(_))
-sm = sum(l2)
-mn = min(l2)
-for _ in l2:
-    l3.append(_ * mn)
-f5 = open(path2, 'w')
+# Элементы до n-1 (все кроме последнего) умножаются на элемент n (последний элемент)
+if count > 0:
+    last_element = numbers_list[-1]
+    processed_list = [x * last_element for x in numbers_list[:-1]]
+    processed_str = ' '.join(map(str, processed_list))
+else:
+    processed_str = ""
 
+# 3. Формируем новый текстовый файл с результатами
+with open('result_numbers.txt', 'w', encoding='utf-8') as file:
+    file.write(f"Исходные данные: {content}\n")
+    file.write(f"Количество элементов: {count}\n")
+    file.write(f"Сумма элементов: {total_sum}\n")
+    file.write(f"Элементы до n-1 умножены на элемент n: {processed_str}\n")
 
-
-
-
-f5.write('Исходные данные: ' + k + '\n')
-f5.write('Количество элементов: ' + str(len(l2)) + '\n')
-f5.write('Сумма элементов: ' + str(sm) + '\n')
-f5.write('Элементы, умноженные на минимальный элемент: ')
-
-
-
-for x in l3:
-    f5.write(str(x) + ' ')
-f5.close()
+print("Задача 1 выполнена: файл 'result_numbers.txt' успешно сформирован.")
