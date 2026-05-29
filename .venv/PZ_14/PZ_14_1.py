@@ -1,22 +1,23 @@
 import tkinter as tk
 from tkinter import ttk
 
+
 def create_ui():
     root = tk.Tk()
     root.title("Регистрация")
     root.geometry("650x450")
-    root.configure(bg="#e8eef2") # Светло-серый фон страницы
+    root.configure(bg="#e8eef2")  # Светло-серый фон страницы
 
     # --- Стили ---
     style = ttk.Style()
     style.theme_use('clam')
     style.configure("TEntry", padding=3)
-    
+
     # Цвета
     main_blue = "#38a3d5"
     text_blue = "#4a8fb3"
     check_green = "#4caf50"
-    
+
     # --- Заголовок страницы ---
     header_label = tk.Label(root, text="Регистрация", font=("Arial", 16, "bold"), fg=main_blue, bg="#e8eef2")
     header_label.pack(anchor="nw", padx=30, pady=(20, 10))
@@ -40,7 +41,7 @@ def create_ui():
         lbl = tk.Label(form_frame, text=label_text, bg="white", fg=text_blue, font=("Arial", 9, "bold"), anchor="e")
         lbl.grid(row=row_idx, column=0, sticky="e", padx=(10, 10), pady=6)
         widget.grid(row=row_idx, column=1, sticky="w", pady=6)
-        
+
         if show_check:
             check = tk.Label(form_frame, text="✔", fg=check_green, bg="white", font=("Arial", 10, "bold"))
             check.grid(row=row_idx, column=2, sticky="w", padx=5)
@@ -78,8 +79,10 @@ def create_ui():
     # 7. Пол (Возвращен выбор с помощью Radiobuttons)
     gender_frame = tk.Frame(form_frame, bg="white")
     gender_var = tk.StringVar(value="Мужчина")
-    rb_m = tk.Radiobutton(gender_frame, text="Мужчина", variable=gender_var, value="Мужчина", bg="white", fg="#333", font=("Arial", 9))
-    rb_f = tk.Radiobutton(gender_frame, text="Женщина", variable=gender_var, value="Женщина", bg="white", fg="#333", font=("Arial", 9))
+    rb_m = tk.Radiobutton(gender_frame, text="Мужчина", variable=gender_var, value="Мужчина", bg="white", fg="#333",
+                          font=("Arial", 9))
+    rb_f = tk.Radiobutton(gender_frame, text="Женщина", variable=gender_var, value="Женщина", bg="white", fg="#333",
+                          font=("Arial", 9))
     rb_m.pack(side="left", padx=(0, 10))
     rb_f.pack(side="left")
     add_row(6, "Пол", gender_frame)
@@ -94,16 +97,13 @@ def create_ui():
     buttons_frame.grid(row=8, column=1, sticky="w", pady=(20, 0))
 
     # Основная кнопка
-    reg_btn = tk.Button(buttons_frame, text="Регистрация", bg=main_blue, fg="white", 
+    reg_btn = tk.Button(buttons_frame, text="Регистрация", bg=main_blue, fg="white",
                         font=("Arial", 10, "bold"), relief="flat", width=15, pady=5)
     reg_btn.pack(side="left", padx=(0, 10))
 
-    # Новая добавленная кнопка
-    exit_btn = tk.Button(buttons_frame, text="Выход", bg="#d9534f", fg="white", 
-                         font=("Arial", 10, "bold"), relief="flat", width=10, pady=5, command=root.destroy)
-    exit_btn.pack(side="left")
 
     root.mainloop()
+
 
 if __name__ == "__main__":
     create_ui()
