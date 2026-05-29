@@ -4,7 +4,7 @@ from tkinter import ttk
 def create_ui():
     root = tk.Tk()
     root.title("Регистрация")
-    root.geometry("650x450")  # Уменьшил высоту, так как элементов стало меньше
+    root.geometry("650x450")
     root.configure(bg="#e8eef2") # Светло-серый фон страницы
 
     # --- Стили ---
@@ -31,7 +31,7 @@ def create_ui():
     banner_label = tk.Label(banner_frame, text="Создание нового сайта", bg=main_blue, fg="white", font=("Arial", 12))
     banner_label.pack(pady=10)
 
-    # --- Фрейм для полей ввода (Grid Layout) ---
+    # --- Фрейм для полей ввода ---
     form_frame = tk.Frame(main_frame, bg="white")
     form_frame.pack(pady=20, padx=20)
 
@@ -50,7 +50,7 @@ def create_ui():
     email_entry.insert(0, "test@gmail.com")
     add_row(0, "Email", email_entry)
 
-    # 2. Пароль (теперь без show="*", текст пишется открыто)
+    # 2. Пароль (текст пишется открыто)
     pwd_entry = ttk.Entry(form_frame, width=35)
     pwd_entry.insert(0, "password123")
     add_row(1, "Пароль", pwd_entry)
@@ -70,27 +70,38 @@ def create_ui():
     nick_entry.insert(0, "TRos")
     add_row(4, "Никнейм", nick_entry)
 
-    # 6. Дата рождения (теперь обычное поле для ввода текста вместо выпадающих списков)
+    # 6. Дата рождения (простое поле для ввода)
     dob_entry = ttk.Entry(form_frame, width=35)
     dob_entry.insert(0, "4 Ноября 1988")
     add_row(5, "Дата рождения", dob_entry)
 
-    # 7. Пол (теперь простое неизменяемое текстовое поле)
-    gender_entry = ttk.Entry(form_frame, width=35)
-    gender_entry.insert(0, "Мужчина")
-    gender_entry.configure(state="readonly") # Запрет на изменение текста
-    add_row(6, "Пол", gender_entry)
+    # 7. Пол (Возвращен выбор с помощью Radiobuttons)
+    gender_frame = tk.Frame(form_frame, bg="white")
+    gender_var = tk.StringVar(value="Мужчина")
+    rb_m = tk.Radiobutton(gender_frame, text="Мужчина", variable=gender_var, value="Мужчина", bg="white", fg="#333", font=("Arial", 9))
+    rb_f = tk.Radiobutton(gender_frame, text="Женщина", variable=gender_var, value="Женщина", bg="white", fg="#333", font=("Arial", 9))
+    rb_m.pack(side="left", padx=(0, 10))
+    rb_f.pack(side="left")
+    add_row(6, "Пол", gender_frame)
 
-    # 8. Место проживания (теперь простое неизменяемое текстовое поле)
+    # 8. Место проживания (Обычное поле для ввода текста, можно писать свой город)
     loc_entry = ttk.Entry(form_frame, width=35)
     loc_entry.insert(0, "Другой город")
-    loc_entry.configure(state="readonly") # Запрет на изменение текста
     add_row(7, "Место проживания", loc_entry)
 
-    # --- Кнопка Регистрация ---
-    reg_btn = tk.Button(form_frame, text="Регистрация", bg=main_blue, fg="white", 
+    # --- Кнопки в самом низу ---
+    buttons_frame = tk.Frame(form_frame, bg="white")
+    buttons_frame.grid(row=8, column=1, sticky="w", pady=(20, 0))
+
+    # Основная кнопка
+    reg_btn = tk.Button(buttons_frame, text="Регистрация", bg=main_blue, fg="white", 
                         font=("Arial", 10, "bold"), relief="flat", width=15, pady=5)
-    reg_btn.grid(row=8, column=1, sticky="w", pady=(20, 0))
+    reg_btn.pack(side="left", padx=(0, 10))
+
+    # Новая добавленная кнопка
+    exit_btn = tk.Button(buttons_frame, text="Выход", bg="#d9534f", fg="white", 
+                         font=("Arial", 10, "bold"), relief="flat", width=10, pady=5, command=root.destroy)
+    exit_btn.pack(side="left")
 
     root.mainloop()
 
