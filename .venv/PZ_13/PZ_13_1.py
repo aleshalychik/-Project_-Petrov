@@ -1,6 +1,5 @@
 import re
 
-# Помещаем весь текст из pazzl.html прямо в переменную внутри кода
 html_content = """
 <html>
 <body bgcolor="#E0FFFF">
@@ -29,16 +28,12 @@ html_content = """
 </html>
 """
 
-# Регулярное выражение для поиска тегов <img>
 pattern = r'<img[^>]+>'
 
-# Ищем совпадения напрямую в нашей строковой переменной
 image_tags = re.findall(pattern, html_content)
 
-# Выводим найденные теги в консоль PyCharm
 print("Найденные html-коды изображений:")
 for tag in image_tags:
     print(tag)
 
-# Выводим итоговое количество
 print(f"\nОбщее количество изображений: {len(image_tags)}")
