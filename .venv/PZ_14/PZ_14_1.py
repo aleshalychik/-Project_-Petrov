@@ -4,14 +4,13 @@ from tkinter import ttk
 def create_ui():
     root = tk.Tk()
     root.title("Регистрация")
-    root.geometry("650x550")
+    root.geometry("650x450")  # Уменьшил высоту, так как элементов стало меньше
     root.configure(bg="#e8eef2") # Светло-серый фон страницы
 
     # --- Стили ---
     style = ttk.Style()
     style.theme_use('clam')
     style.configure("TEntry", padding=3)
-    style.configure("TCombobox", padding=3)
     
     # Цвета
     main_blue = "#38a3d5"
@@ -36,7 +35,7 @@ def create_ui():
     form_frame = tk.Frame(main_frame, bg="white")
     form_frame.pack(pady=20, padx=20)
 
-    # Вспомогательная функция для добавления стандартной строки формы
+    # Вспомогательная функция для добавления строк формы
     def add_row(row_idx, label_text, widget, show_check=True):
         lbl = tk.Label(form_frame, text=label_text, bg="white", fg=text_blue, font=("Arial", 9, "bold"), anchor="e")
         lbl.grid(row=row_idx, column=0, sticky="e", padx=(10, 10), pady=6)
@@ -51,8 +50,8 @@ def create_ui():
     email_entry.insert(0, "test@gmail.com")
     add_row(0, "Email", email_entry)
 
-    # 2. Пароль
-    pwd_entry = ttk.Entry(form_frame, width=35, show="*")
+    # 2. Пароль (теперь без show="*", текст пишется открыто)
+    pwd_entry = ttk.Entry(form_frame, width=35)
     pwd_entry.insert(0, "password123")
     add_row(1, "Пароль", pwd_entry)
 
@@ -71,72 +70,29 @@ def create_ui():
     nick_entry.insert(0, "TRos")
     add_row(4, "Никнейм", nick_entry)
 
-    # 6. Дата рождения (Составной виджет)
-    dob_frame = tk.Frame(form_frame, bg="white")
-    day_cb = ttk.Combobox(dob_frame, width=3, values=[str(i) for i in range(1, 32)])
-    day_cb.set("4")
-    day_cb.pack(side="left", padx=(0, 5))
-    
-    month_cb = ttk.Combobox(dob_frame, width=12, values=["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"])
-    month_cb.set("Ноябрь")
-    month_cb.pack(side="left", padx=5)
-    
-    year_cb = ttk.Combobox(dob_frame, width=5, values=[str(i) for i in range(1970, 2010)])
-    year_cb.set("1988")
-    year_cb.pack(side="left", padx=5)
-    add_row(5, "Дата рождения", dob_frame)
+    # 6. Дата рождения (теперь обычное поле для ввода текста вместо выпадающих списков)
+    dob_entry = ttk.Entry(form_frame, width=35)
+    dob_entry.insert(0, "4 Ноября 1988")
+    add_row(5, "Дата рождения", dob_entry)
 
-    # 7. Пол (Radiobuttons)
-    gender_frame = tk.Frame(form_frame, bg="white")
-    gender_var = tk.StringVar(value="m")
-    rb_m = tk.Radiobutton(gender_frame, text="Мужчина", variable=gender_var, value="m", bg="white", fg="#333", font=("Arial", 9))
-    rb_f = tk.Radiobutton(gender_frame, text="Женщина", variable=gender_var, value="f", bg="white", fg="#333", font=("Arial", 9))
-    rb_m.pack(side="left")
-    rb_f.pack(side="left")
-    add_row(6, "Пол", gender_frame)
+    # 7. Пол (теперь простое неизменяемое текстовое поле)
+    gender_entry = ttk.Entry(form_frame, width=35)
+    gender_entry.insert(0, "Мужчина")
+    gender_entry.configure(state="readonly") # Запрет на изменение текста
+    add_row(6, "Пол", gender_entry)
 
-    # 8. Место проживания
-    loc_cb = ttk.Combobox(form_frame, width=33, values=["Другой город", "Москва", "Санкт-Петербург"])
-    loc_cb.set("Другой город")
-    add_row(7, "Место проживания", loc_cb)
+    # 8. Место проживания (теперь простое неизменяемое текстовое поле)
+    loc_entry = ttk.Entry(form_frame, width=35)
+    loc_entry.insert(0, "Другой город")
+    loc_entry.configure(state="readonly") # Запрет на изменение текста
+    add_row(7, "Место проживания", loc_entry)
 
-    # 9. Код безопасности (Капча)
-    captcha_frame = tk.Frame(form_frame, bg="white")
-    capt_entry = ttk.Entry(captcha_frame, width=8)
-    capt_entry.insert(0, "VPyJL")
-    capt_entry.pack(side="left", padx=(0, 5))
-    
-    arrow_lbl = tk.Label(captcha_frame, text="←", bg="white", fg="#777")
-    arrow_lbl.pack(side="left", padx=2)
-    
-    # Имитация картинки с капчей
-    img_lbl = tk.Label(captcha_frame, text=" VPyJL ", font=("Georgia", 16, "italic"), bg="#e8f5e9", fg="black")
-    img_lbl.pack(side="left", padx=5)
-    
-    refresh_lbl = tk.Label(captcha_frame, text="↻", bg="white", fg="#777", font=("Arial", 12))
-    refresh_lbl.pack(side="left")
-    add_row(8, "Код безопасности", captcha_frame)
-
-    # --- Блок с условиями и кнопкой ---
-    
-    # Чекбокс условий
-    terms_var = tk.BooleanVar(value=True)
-    terms_cb = tk.Checkbutton(form_frame, text="Подтверждаю условия использования uID сообщества", 
-                              variable=terms_var, bg="white", fg="#333", font=("Arial", 9))
-    terms_cb.grid(row=9, column=1, columnspan=2, sticky="w", pady=(15, 0))
-
-    # Мелкий текст под чекбоксом
-    sub_lbl = tk.Label(form_frame, text="Мы гарантируем: Ваша конфиденциальная информация никогда не попадет в чужие руки.", 
-                       font=("Arial", 7), fg="#999", bg="white")
-    sub_lbl.grid(row=10, column=1, columnspan=2, sticky="w", padx=25)
-
-    # Кнопка Регистрация
+    # --- Кнопка Регистрация ---
     reg_btn = tk.Button(form_frame, text="Регистрация", bg=main_blue, fg="white", 
                         font=("Arial", 10, "bold"), relief="flat", width=15, pady=5)
-    reg_btn.grid(row=11, column=1, sticky="w", pady=(15, 0))
+    reg_btn.grid(row=8, column=1, sticky="w", pady=(20, 0))
 
     root.mainloop()
 
 if __name__ == "__main__":
     create_ui()
-
