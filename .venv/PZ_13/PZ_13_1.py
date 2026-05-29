@@ -1,5 +1,6 @@
 import re
 
+# Исходный HTML-текст задачи (переменная имитирует файл pazzl.html)
 html_content = """
 <html>
 <body bgcolor="#E0FFFF">
@@ -28,12 +29,18 @@ html_content = """
 </html>
 """
 
-pattern = r'<img[^>]+>'
+# Новое, еще более точное регулярное выражение для поиска тегов картинок
+# Оно ищет открывающий тег <img, любые символы внутри, и закрывающий тег >
+image_pattern = r'<img\s+[^>]*>'
 
-image_tags = re.findall(pattern, html_content)
+# Находим все теги в тексте
+found_images = re.findall(image_pattern, html_content)
 
-print("Найденные html-коды изображений:")
-for tag in image_tags:
-    print(tag)
+# Выводим результаты в консоль PyCharm
+print("=== Список найденных HTML-кодов изображений ===")
+for index, tag in enumerate(found_images, start=1):
+    print(f"{index}. {tag}")
 
-print(f"\nОбщее количество изображений: {len(image_tags)}")
+print("-" * 47)
+# Считаем количество элементов в списке
+print(f"Общее количество найденных изображений: {len(found_images)}")
