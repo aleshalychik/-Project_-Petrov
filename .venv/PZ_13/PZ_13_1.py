@@ -1,14 +1,44 @@
 import re
 
-with open('pazzl.html', 'r', encoding='utf-8') as file:
-    html_content = file.read()
+# Помещаем весь текст из pazzl.html прямо в переменную внутри кода
+html_content = """
+<html>
+<body bgcolor="#E0FFFF">
+<p align="center"><font size="6"><i><b>Р</b></i>азобранный рисунок</font></p>
+<table border="2" align="center">
+<tr>
+<td><img src="majk1.bmp" width="150" height="150"></td>
+<td><img src="majk2.bmp" width="150" height="150"></td>
+</tr>
+<td><img src="majk3.bmp" width="150" height="150"></td>
+<td><img src="majk4.bmp" width="150" height="150"></td>
+</tr>
+</table>
+<hr>
+<p align="center"><font size="6"><i><b>C</b></i>обранный рисунок</font></p>
+<table border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td><img src="majk1.bmp" width="150" height="150"></td>
+<td><img src="majk2.bmp" width="150" height="150"></td>
+</tr>
+<td><img src="majk3.bmp" width="150" height="150"></td>
+<td><img src="majk4.bmp" width="150" height="150"></td>
+</tr>
+</table>
+</body>
+</html>
+"""
 
+# Регулярное выражение для поиска тегов <img>
 pattern = r'<img[^>]+>'
 
+# Ищем совпадения напрямую в нашей строковой переменной
 image_tags = re.findall(pattern, html_content)
 
+# Выводим найденные теги в консоль PyCharm
 print("Найденные html-коды изображений:")
 for tag in image_tags:
     print(tag)
 
+# Выводим итоговое количество
 print(f"\nОбщее количество изображений: {len(image_tags)}")
