@@ -1,28 +1,33 @@
+import random
+
 class Student:
     def __init__(self, first_name, last_name, grades):
-        # Инициализация атрибутов
         self.first_name = first_name
         self.last_name = last_name
-        self.grades = grades  # Список оценок
+        self.grades = grades  
 
     def get_average_score(self):
-        # Вычисление среднего балла
         if not self.grades:
             return 0
         return sum(self.grades) / len(self.grades)
 
     def is_excellent(self):
-        # Студент считается отличником, если его средний балл равен 5.0
         return self.get_average_score() == 5.0
 
-# --- Пример использования ---
-student1 = Student("Алексей", "Смирнов", [5, 5, 4, 5])
-student2 = Student("Мария", "Иванова", [5, 5, 5, 5])
+# Генерируем случайные оценки от 2 до 5. 
+# Количество оценок тоже случайное: от 3 до 7 штук.
+random_grades_1 = [random.randint(2, 5) for _ in range(random.randint(3, 7))]
+random_grades_2 = [random.randint(4, 5) for _ in range(random.randint(3, 5))] # У второго шансов стать отличником больше
+
+student1 = Student("Алексей", "Смирнов", random_grades_1)
+student2 = Student("Мария", "Иванова", random_grades_2)
 
 print(f"Студент: {student1.first_name} {student1.last_name}")
-print(f"Средний балл: {student1.get_average_score()}")
+print(f"Случайные оценки: {student1.grades}")
+print(f"Средний балл: {student1.get_average_score():.2f}") # Округление до 2 знаков
 print(f"Отличник: {student1.is_excellent()}\n")
 
 print(f"Студент: {student2.first_name} {student2.last_name}")
-print(f"Средний балл: {student2.get_average_score()}")
+print(f"Случайные оценки: {student2.grades}")
+print(f"Средний балл: {student2.get_average_score():.2f}")
 print(f"Отличник: {student2.is_excellent()}")
