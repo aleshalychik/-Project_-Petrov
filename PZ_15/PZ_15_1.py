@@ -3,52 +3,78 @@
 
 import sqlite3
 
-conn = sqlite3.connect('freight.db')
-cursor = conn.cursor()
+# 1. Подключение к базе данных (файл car_rental.db создастся автоматически)
+connection = sqlite3.connect('car_rental.db')
+cursor = connection.cursor()
 
+# 2. Создание таблицы "Клиент" в соответствии с Вариантом 23
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS Перевозки (
+CREATE TABLE IF NOT EXISTS Client (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    маршрут TEXT NOT NULL,
-    фамилия_водителя TEXT NOT NULL,
-    дата_отправки TEXT NOT NULL,
-    дата_прибытия TEXT NOT NULL,
-    масса_груза REAL NOT NULL
+    fio TEXT NOT NULL,
+    car_brand TEXT NOT NULL,
+    rental_period INTEGER,
+    amount REAL,
+    prepayment TEXT
 )
 ''')
-conn.commit()
+connection.commit()
 
+# Очистим таблицу перед демонстрацией (чтобы данные не дублировались при повторном запуске)
+cursor.execute("DELETE FROM Client")
+connection.commit()
 
-def add_transport(route, driver, dep_date, arr_date, weight):
-    cursor.execute('''
-    INSERT INTO Перевозки (маршрут, фамилия_водителя, дата_отправки, дата_прибытия, масса_груза)
-    VALUES (?, ?, ?, ?, ?)
-    ''', (route, driver, dep_date, arr_date, weight))
-    conn.commit()
-    print(f" Успешно добавлено: Маршрут '{route}', Водитель: {driver}")
+# 3. Добавление (INSERT) начальных данных в таблицу
+clients_data = [
+    ('Иванов Иван Иванович', 'Toyota Camry', 5, 25000.0, 'да'),
+    ('Петров Петр Петрович', 'Hyundai Solaris', 3, 12000.0, 'нет'),
+    ('Сидоров Сидор Сидорович', 'BMW X5', 7, 70000.0, 'да')
+]
 
+cursor.executemany('''
+INSERT INTO Client (fio, car_brand, rental_period, amount, prepayment)
+VALUES (?, ?, ?, ?, ?)
+''', clients_data)
+connection.commit()
 
-def show_all_transports():
-    cursor.execute('SELECT * FROM Перевозки')
+# Функция для красивого вывода таблицы в консоль
+def display_clients(title):
+    print(f"\n=== {title} ===")
+    cursor.execute("SELECT * FROM Client")
     rows = cursor.fetchall()
+    for row in rows:
+        print(f"ID: {row[0]} | ФИО: {row[1]} | Авто: {row[2]} | Срок: {row[3]} дн. | Сумма: {row[4]} руб. | Предоплата: {row[5]}")
 
-    print("\n БАЗА: ГРУЗОВЫЕ ПЕРЕВОЗКИ ---")
-    if not rows:
-        print("База данных пуста.")
-    else:
-        for row in rows:
-            print(f"ID: {row[0]} | Маршрут: {row[1]} | Водитель: {row[2]} | "
-                  f"Отправка: {row[3]} | Прибытие: {row[4]} | Масса: {row[5]} т.")
-    print("-----------------------------------\n")
+# Выводим первоначальные данные
+display_clients("Данные в базе после добавления")
 
 
-cursor.execute('DELETE FROM Перевозки')
-conn.commit()
+# =====================================================================
+# 4. ОБНОВЛЕНИЕ ДАННЫХ (UPDATE)
+# =====================================================================
+# Пример 1: Петров Петр Петрович внес предоплату, меняем 'нет' на 'да'
+print("\n[Выполнение UPDATE]: Изменяем статус предоплаты для Петрова...")
+cursor.execute('''
+UPDATE Client
+SET prepayment = 'да'
+WHERE fio = 'Петров Петр Петрович'
+''')
 
-add_transport('Москва - Санкт-Петербург', 'Иванов', '2026-06-01', '2026-06-03', 15.5)
-add_transport('Казань - Екатеринбург', 'Петров', '2026-06-05', '2026-06-08', 20.0)
-add_transport('Новосибирск - Владивосток', 'Сидоров', '2026-06-10', '2026-06-25', 12.3)
+# Пример 2: Иванову увеличили срок проката до 6 дней и, соответственно, сумму до 30000
+print("[Выполнение UPDATE]: Обновляем срок и сумму проката для Иванова...")
+cursor.execute('''
+UPDATE Client
+SET rental_period = 6, amount = 30000.0
+WHERE fio = 'Иванов Иван Иванович'
+''')
 
-show_all_transports()
+# Сохраняем изменения в базе данных
+connection.commit()
+# =====================================================================
 
-conn.close()
+
+# 5. Выводим данные еще раз, чтобы увидеть результат обновлений
+display_clients("Данные в базе ПОСЛЕ выполнения UPDATE")
+
+# Закрытие соединения с базой данных
+connection.close()
